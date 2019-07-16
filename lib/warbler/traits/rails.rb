@@ -23,6 +23,7 @@ module Warbler
         config.jar_name = default_app_name
         config.webxml.rails.env = ENV['RAILS_ENV'] || 'production'
         config.pathmaps.public_html << "%{packs/(manifest.*),WEB-INF/public/packs/\\1}p"
+        config.pathmaps.public_html << "%{packs/*,WEB-INF/public/packs/\\1}p"
 
         return unless Warbler.framework_detection
         return false unless task = Warbler.project_application.lookup('environment')
@@ -55,6 +56,7 @@ module Warbler
         end
 
         config.includes += FileList["public/assets/.sprockets-manifest-*.json"].existing
+        config.includes += FileList["public/packs/manifest.json"].existing
         config.includes += FileList["public/assets/manifest-*.json"].existing
         config.includes += FileList["public/assets/manifest.yml"].existing
       end
